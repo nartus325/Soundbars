@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сравнение саундбаров</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--text:#1b1f24;--muted:#667085;--line:#e3e6eb;--acc:#2563eb;--accbg:#e8efff}
+@media (prefers-color-scheme:dark){:root{--bg:#111418;--card:#1a1f26;--text:#e8ebf0;--muted:#98a2b3;--line:#2b323c;--acc:#6b9bff;--accbg:#22314f}}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.45 system-ui,sans-serif;background:var(--bg);color:var(--text)}
+header{padding:18px 16px 6px;max-width:1500px;margin:auto}
+h1{margin:0 0 4px;font-size:22px}
+.sub,small,.hint{color:var(--muted);font-size:12px}
+.hint{margin:2px 0 4px}
+.wrap{max-width:1500px;margin:auto;padding:12px 16px 90px;display:grid;grid-template-columns:300px 1fr;gap:16px}
+aside{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;align-self:start;position:sticky;top:8px;max-height:calc(100vh - 16px);overflow:auto}
+input[type=text],input[type=number],select{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font:inherit}
+aside>input{margin-bottom:6px}
+.row{display:flex;gap:6px}
+.act{display:flex;justify-content:space-between;align-items:center;margin:4px 0 6px;font-size:13px;color:var(--muted)}
+.lnk{border:none;background:none;color:var(--acc);padding:0;font-size:12px}
+.grp{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 2px}
+details.f{border-top:1px solid var(--line);padding:6px 0}
+details.f summary{cursor:pointer;font-weight:500;font-size:14px;padding:2px 0}
+.bd{background:var(--acc);color:#fff;border-radius:99px;padding:0 7px;font-size:11px;margin-left:6px}
+.box{max-height:190px;overflow:auto;margin:4px 0}
+.chk{display:block;padding:2px 0;cursor:pointer}
+.chk.z{opacity:.4}
+.chk input{margin-right:6px}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:8px;padding:6px 12px}
+button.p,button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.top{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.top .cnt{color:var(--muted);flex:1}
+.top select{width:auto;max-width:220px}
+.seg{display:flex}.seg button:first-child{border-radius:8px 0 0 8px}.seg button:last-child{border-radius:0 8px 8px 0}
+.mob{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{border-radius:99px;padding:3px 10px;font-size:12px;background:var(--accbg);color:var(--acc);border-color:transparent}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.card.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc)}
+.card img{width:100%;height:140px;object-fit:contain;border-radius:8px;background:#fff}
+.card h2{margin:0;font-size:16px}
+.brand{color:var(--muted);font-size:12px}
+dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:4px 0;font-size:13px}
+dt{color:var(--muted)}dd{margin:0}
+.tag{display:inline-block;background:var(--accbg);color:var(--acc);border-radius:99px;padding:0 8px;font-size:12px;margin:1px 2px 1px 0}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.links a{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:2px 10px;text-decoration:none;color:var(--acc)}
+.cmp{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:6px}
+.tw{overflow:auto}
+table{border-collapse:collapse;width:100%;background:var(--card)}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:13px}
+#out>.tw{border:1px solid var(--line);border-radius:12px;max-height:80vh}
+#out th{position:sticky;top:0;background:var(--card);cursor:pointer;white-space:nowrap;z-index:1}
+img.th{width:48px;height:34px;object-fit:contain;display:block;background:#fff;border-radius:4px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 16px;display:none;gap:10px;align-items:center;justify-content:center;z-index:5}
+.bar.on{display:flex}
+dialog{width:min(1150px,96vw);max-height:90vh;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:0}
+dialog::backdrop{background:#0008}
+.dh{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.dh h2{margin:0;font-size:17px;flex:1}
+#dlg .tw{max-height:74vh}
+#tbl th:first-child{color:var(--muted);font-weight:500;white-space:nowrap;position:sticky;left:0;background:var(--card)}
+#tbl img.th{margin-bottom:4px}
+tr.diff td{background:var(--accbg)}
+.err{background:#fee;color:#900;padding:10px;border-radius:8px;margin:8px 0;display:none}
+details.warn{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px}
+details.warn li{margin:3px 0}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}aside{display:none;position:static;max-height:none}aside.open{display:block}.mob{display:inline-block}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Сравнение саундбаров</h1>
+  <div class="sub" id="src">Загрузка данных...</div>
+</header>
+<div class="wrap">
+  <aside id="side">
+    <input type="text" id="q" placeholder="Поиск по всем полям">
+    <input type="text" id="fq" placeholder="Найти нужный фильтр…">
+    <div class="act"><span id="actCnt"></span><button id="reset">Сбросить всё</button></div>
+    <div class="act"><span><button class="lnk" id="expAll">Развернуть все</button> · <button class="lnk" id="colAll">Свернуть все</button></span></div>
+    <div id="filters"></div>
+  </aside>
+  <main>
+    <div class="err" id="err"></div>
+    <div class="top">
+      <button class="mob" id="ftoggle">Фильтры</button>
+      <span class="cnt" id="cnt"></span>
+      <select id="sortCol"></select><button id="sortDir" title="Направление">↑</button>
+      <div class="seg"><button id="vCards" class="on">Карточки</button><button id="vTable">Таблица</button></div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="out"></div>
+    <details class="warn" id="warns" hidden><summary id="warnSum"></summary><ul id="warnList"></ul></details>
+  </main>
+</div>
+<div class="bar" id="bar"><span id="barTxt"></span><button class="p" id="go">Сравнить</button><button id="clr">Очистить</button></div>
+<dialog id="dlg">
+  <div class="dh"><h2>Сравнение</h2><label><input type="checkbox" id="onlyDiff"> только отличия</label><button id="close">Закрыть</button></div>
+  <div class="tw"><table id="tbl"></table></div>
+</dialog>
+
+<script>
+/* Настройки подключения. Для разных листов укажите отдельные опубликованные CSV-ссылки.
+   Обычно URL листа имеет вид .../pub?gid=ЧИСЛО&single=true&output=csv
+   Не используйте одну и ту же ссылку для разных листов, если это разные вкладки. */
+const CFG = {
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRaLj8eC8rosmQgZQh77otXrifEg-Yp-0nWTXEsCnzfGfUZU7C5diprVzOLFslz4bh2Vu4AbiRB1kyY/pub?output=csv",
+  SETTINGS_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjLlrDyhQCGLcvtmIkaFWIiNfPaZgBLwopic6yrtNKYzfSlXapZGZ4KkEfhrZoPeIKkmGI9tSz8Jc2/pub?gid=1937025887&single=true&output=csv", // Вставьте опубликованный CSV URL листа настроек, если он нужен
+  TITLE: "Модель",
+  BRAND: "Бренд",
+  IMG: "Фото",
+  LINK: "Ссылка",
+  NO_FILTER: ["Заметки", "Плюсы", "Минусы", "Описание"],
+  MAX_COMPARE: 4,
+  REFRESH_INTERVAL: 60000,
+  USE_CACHE_BUSTER: true
+};
+
+const $ = id => document.getElementById(id);
+let allItems = [], visibleItems = [], headers = [], settings = {};
+let selectedFilters = new Map(), selectedCompare = new Set(), sortKey = CFG.BRAND, sortAsc = true, viewMode = 'cards';
+let refreshTimer = null;
+
+function parseCSV(text) {
+  if (!text) return [];
+  text = text.replace(/^\uFEFF/, '');
+  const rows = []; let row = [], field = '', quoted = false;
+  for (let i=0; i<text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c === '"' && text[i+1] === '"') { field += '"'; i++; }
+      else if (c === '"') quoted = false;
+      else field += c;
+    } else {
+      if (c === '"' && field === '') quoted = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\n') { row.push(field.replace(/\r$/, '')); rows.push(row); row=[]; field=''; }
+      else field += c;
+    }
+  }
+  if (field.length || row.length) { row.push(field.replace(/\r$/, '')); rows.push(row); }
+  while (rows.length && rows[rows.length-1].every(v => !String(v).trim())) rows.pop();
+  if (rows.length < 2) return [];
+  const hs = rows.shift().map((h,i) => String(h || (i+1)).trim());
+  return rows.filter(r => r.some(v => String(v ?? '').trim() !== '')).map(r => {
+    const obj = {};
+    hs.forEach((h,i) => obj[h] = String(r[i] ?? '').trim());
+    return obj;
+  });
+}
+function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function safeUrl(v) { try { const u = new URL(String(v), location.href); return ['http:','https:'].includes(u.protocol) ? u.href : ''; } catch { return ''; } }
+function csvUrl(url) {
+  if (!url) return '';
+  const u = new URL(url);
+  if (CFG.USE_CACHE_BUSTER) u.searchParams.set('_cb', Date.now());
+  return u.href;
+}
+async function fetchCSV(url, label) {
+  if (!url) return null;
+  const response = await fetch(csvUrl(url), {cache:'no-store'});
+  if (!response.ok) throw new Error(`${label}: HTTP ${response.status}`);
+  const text = await response.text();
+  if (/^\s*<!doctype html|^\s*<html/i.test(text)) throw new Error(`${label}: Google вернул HTML вместо CSV. Проверьте публикацию листа и ссылку.`);
+  return text;
+}
+function applySettings(rows) {
+  settings = {};
+  rows.forEach(r => {
+    const keys = Object.keys(r);
+    const k = r['Ключ'] ?? r['Параметр'] ?? r['Настройка'] ?? r['Key'] ?? r['Setting'] ?? r[keys[0]];
+    const v = r['Значение'] ?? r['Value'] ?? r[keys[1]];
+    if (k && v !== undefined) settings[String(k).trim()] = String(v).trim();
+  });
+  // Supported optional settings: TITLE, BRAND, IMG, LINK, NO_FILTER (comma-separated), MAX_COMPARE
+  ['TITLE','BRAND','IMG','LINK'].forEach(k => { if (settings[k]) CFG[k] = settings[k]; });
+  if (settings.NO_FILTER) CFG.NO_FILTER = settings.NO_FILTER.split(/[;,]/).map(x=>x.trim()).filter(Boolean);
+  if (settings.MAX_COMPARE && Number(settings.MAX_COMPARE)>0) CFG.MAX_COMPARE = Math.min(8, Number(settings.MAX_COMPARE));
+}
+function showError(message) { const el=$('err'); el.textContent=message; el.style.display='block'; }
+function clearError() { $('err').textContent=''; $('err').style.display='none'; }
+function getHeaders() { return allItems.length ? Object.keys(allItems[0]) : []; }
+function valueFor(item,key) { return String(item[key] ?? '').trim(); }
+function buildFilters() {
+  const root=$('filters'); root.innerHTML=''; selectedFilters = new Map([...selectedFilters].filter(([k])=>headers.includes(k)));
+  const groups = new Map();
+  headers.forEach(h => {
+    if ([CFG.TITLE, CFG.BRAND, CFG.IMG, CFG.LINK].includes(h) || CFG.NO_FILTER.includes(h)) return;
+    const vals=[...new Set(allItems.map(x=>valueFor(x,h)).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru',{numeric:true,sensitivity:'base'}));
+    if (vals.length < 2 || vals.length > 100) return;
+    groups.set(h, vals);
+  });
+  for (const [h, vals] of groups) {
+    const details=document.createElement('details'); details.className='f'; details.open=vals.length<=12;
+    const summary=document.createElement('summary'); summary.textContent=h;
+    const chosen=selectedFilters.get(h); const count=chosen?.size || 0;
+    if (count) { const b=document.createElement('span'); b.className='bd'; b.textContent=count; summary.append(' ',b); }
+    details.append(summary);
+    const box=document.createElement('div'); box.className='box';
+    vals.forEach(v=>{
+      const label=document.createElement('label'); label.className='chk';
+      const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=!!chosen?.has(v);
+      cb.addEventListener('change',()=>{
+        let set=selectedFilters.get(h); if(!set){set=new Set();selectedFilters.set(h,set)}
+        cb.checked ? set.add(v) : set.delete(v); if(!set.size) selectedFilters.delete(h); render();
+      });
+      label.append(cb,document.createTextNode(v)); box.append(label);
+    });
+    details.append(box); root.append(details);
+  }
+  filterFilterGroups();
+}
+function filterFilterGroups() {
+  const q=$('fq').value.trim().toLocaleLowerCase('ru');
+  document.querySelectorAll('#filters details.f').forEach(d=>{d.hidden=!!q&&!d.querySelector('summary').textContent.toLocaleLowerCase('ru').includes(q);});
+}
+function matches(item) {
+  const q=$('q').value.trim().toLocaleLowerCase('ru');
+  if(q && !headers.some(h=>valueFor(item,h).toLocaleLowerCase('ru').includes(q))) return false;
+  for(const [h,set] of selectedFilters) if(set.size && !set.has(valueFor(item,h))) return false;
+  return true;
+}
+function sortItems(items) {
+  return [...items].sort((a,b)=>{
+    const av=valueFor(a,sortKey), bv=valueFor(b,sortKey);
+    const an=Number(av.replace(/\s/g,'').replace(',','.').replace(/[^\d.-]/g,''));
+    const bn=Number(bv.replace(/\s/g,'').replace(',','.').replace(/[^\d.-]/g,''));
+    const bothNumeric=av!==''&&bv!==''&&Number.isFinite(an)&&Number.isFinite(bn)&&/[\d]/.test(av)&&/[\d]/.test(bv);
+    const c=bothNumeric ? an-bn : av.localeCompare(bv,'ru',{numeric:true,sensitivity:'base'});
+    return sortAsc?c:-c;
+  });
+}
+function renderCards(items) {
+  if(!items.length) return '<p>Ничего не найдено. Попробуйте изменить поиск или фильтры.</p>';
+  return '<div class="grid">'+items.map((item,i)=>{
+    const name=valueFor(item,CFG.TITLE)||'Без названия'; const brand=valueFor(item,CFG.BRAND);
+    const image=safeUrl(valueFor(item,CFG.IMG)); const link=safeUrl(valueFor(item,CFG.LINK));
+    const key=allItems.indexOf(item); const checked=selectedCompare.has(key);
+    const fields=headers.filter(h=>![CFG.BRAND,CFG.TITLE,CFG.IMG,CFG.LINK].includes(h)&&valueFor(item,h));
+    return `<article class="card ${checked?'sel':''}">${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(name)}" onerror="this.style.display='none'">`:''}<span class="brand">${esc(brand)}</span><h2>${esc(name)}</h2><dl>${fields.map(h=>`<dt>${esc(h)}:</dt><dd>${esc(valueFor(item,h))}</dd>`).join('')}</dl><div class="links">${link?`<a href="${esc(link)}" target="_blank" rel="noopener noreferrer">Открыть ссылку</a>`:''}</div><div class="cmp"><label><input type="checkbox" data-compare="${key}" ${checked?'checked':''} ${!checked&&selectedCompare.size>=CFG.MAX_COMPARE?'disabled':''}> Сравнить</label></div></article>`;
+  }).join('')+'</div>';
+}
+function renderTable(items) {
+  if(!items.length) return '<p>Ничего не найдено. Попробуйте изменить поиск или фильтры.</p>';
+  return `<div class="tw"><table><thead><tr>${headers.map(h=>`<th data-sort="${esc(h)}">${esc(h)} ↕</th>`).join('')}</tr></thead><tbody>${items.map(item=>`<tr>${headers.map(h=>`<td>${h===CFG.IMG&&safeUrl(valueFor(item,h))?`<img class="th" loading="lazy" src="${esc(safeUrl(valueFor(item,h)))}" alt="">`:h===CFG.LINK&&safeUrl(valueFor(item,h))?`<a href="${esc(safeUrl(valueFor(item,h)))}" target="_blank" rel="noopener noreferrer">Открыть</a>`:esc(valueFor(item,h))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function renderCompare() {
+  const items=[...selectedCompare].map(i=>allItems[i]).filter(Boolean); const tbl=$('tbl');
+  if(!items.length){tbl.innerHTML='<tr><td>Сначала выберите устройства для сравнения.</td></tr>';return;}
+  const onlyDiff=$('onlyDiff').checked;
+  const rows=headers.filter(h=>!onlyDiff||new Set(items.map(x=>valueFor(x,h))).size>1);
+  tbl.innerHTML=`<thead><tr><th>Характеристика</th>${items.map(x=>`<th>${esc(valueFor(x,CFG.BRAND))} ${esc(valueFor(x,CFG.TITLE))}</th>`).join('')}</tr></thead><tbody>${rows.map(h=>`<tr class="${new Set(items.map(x=>valueFor(x,h))).size>1?'diff':''}"><th>${esc(h)}</th>${items.map(x=>`<td>${h===CFG.IMG&&safeUrl(valueFor(x,h))?`<img class="th" src="${esc(safeUrl(valueFor(x,h)))}" alt="">`:h===CFG.LINK&&safeUrl(valueFor(x,h))?`<a href="${esc(safeUrl(valueFor(x,h)))}" target="_blank" rel="noopener noreferrer">Открыть</a>`:esc(valueFor(x,h))}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+function render() {
+  visibleItems=sortItems(allItems.filter(matches));
+  $('cnt').textContent=`Показано ${visibleItems.length} из ${allItems.length}`;
+  $('actCnt').textContent=selectedFilters.size?`Активных фильтров: ${selectedFilters.size}`:'Фильтры не выбраны';
+  $('chips').innerHTML=[...selectedFilters].flatMap(([h,set])=>[...set].map(v=>`<button class="chip" data-remove-filter="${esc(h)}\u0000${esc(v)}">${esc(h)}: ${esc(v)} ×</button>`)).join('');
+  $('out').innerHTML=viewMode==='cards'?renderCards(visibleItems):renderTable(visibleItems);
+  $('bar').classList.toggle('on',selectedCompare.size>0); $('barTxt').textContent=`Выбрано для сравнения: ${selectedCompare.size}/${CFG.MAX_COMPARE}`;
+  $('go').disabled=selectedCompare.size<2;
+  $('sortDir').textContent=sortAsc?'↑':'↓';
+  $('sortCol').value=headers.includes(sortKey)?sortKey:(headers[0]||'');
+  buildFilters();
+}
+function setupSort() {
+  $('sortCol').innerHTML=headers.map(h=>`<option value="${esc(h)}">Сортировка: ${esc(h)}</option>`).join('');
+  sortKey=headers.includes(CFG.BRAND)?CFG.BRAND:(headers[0]||'');
+}
+async function loadAllData() {
+  try {
+    clearError(); $('src').textContent='Загрузка данных из Google Таблиц…';
+    const [mainText, settingsText] = await Promise.all([fetchCSV(CFG.SHEET_CSV_URL,'Лист саундбаров'), CFG.SETTINGS_CSV_URL ? fetchCSV(CFG.SETTINGS_CSV_URL,'Лист настроек').catch(e=>{console.warn(e);return null}) : Promise.resolve(null)]);
+    const parsed=parseCSV(mainText);
+    if(!parsed.length) throw new Error('Google Таблица вернула пустой CSV. Проверьте правильность ссылки и публикацию нужного листа.');
+    if(settingsText) applySettings(parseCSV(settingsText));
+    allItems=parsed; headers=getHeaders();
+    selectedCompare=new Set([...selectedCompare].filter(i=>i<allItems.length));
+    setupSort(); render();
+    $('src').textContent=`Данные загружены: ${new Date().toLocaleTimeString()}${settingsText?' · настройки загружены':''}`;
+  } catch(e) {
+    console.error(e); $('src').textContent='Не удалось загрузить данные'; showError(`${e.message} Если файл открыт локально и браузер блокирует запрос, разместите HTML на хостинге. Google-лист должен быть опубликован как CSV и доступен для просмотра.`);
+    if(!allItems.length) $('out').innerHTML='<p>Данные не загружены. Проверьте сообщение об ошибке выше.</p>';
+  }
+}
+
+$('q').addEventListener('input',render);
+$('fq').addEventListener('input',filterFilterGroups);
+$('sortCol').addEventListener('change',e=>{sortKey=e.target.value;render();});
+$('sortDir').addEventListener('click',()=>{sortAsc=!sortAsc;render();});
+$('vCards').addEventListener('click',()=>{viewMode='cards';$('vCards').classList.add('on');$('vTable').classList.remove('on');render();});
+$('vTable').addEventListener('click',()=>{viewMode='table';$('vTable').classList.add('on');$('vCards').classList.remove('on');render();});
+$('reset').addEventListener('click',()=>{selectedFilters.clear();$('q').value='';$('fq').value='';render();});
+$('expAll').addEventListener('click',()=>document.querySelectorAll('#filters details').forEach(d=>d.open=true));
+$('colAll').addEventListener('click',()=>document.querySelectorAll('#filters details').forEach(d=>d.open=false));
+$('ftoggle').addEventListener('click',()=>$('side').classList.toggle('open'));
+$('out').addEventListener('change',e=>{const el=e.target.closest('[data-compare]');if(!el)return;const i=Number(el.dataset.compare);if(el.checked){if(selectedCompare.size>=CFG.MAX_COMPARE){el.checked=false;alert(`Можно сравнить не более ${CFG.MAX_COMPARE} устройств.`);return;}selectedCompare.add(i);}else selectedCompare.delete(i);render();});
+$('out').addEventListener('click',e=>{const th=e.target.closest('[data-sort]');if(th){sortKey=th.dataset.sort;sortAsc=sortKey===sortKey?!sortAsc:true;render();}});
+$('chips').addEventListener('click',e=>{const b=e.target.closest('[data-remove-filter]');if(!b)return;const [h,v]=b.dataset.removeFilter.split('\u0000');selectedFilters.get(h)?.delete(v);if(!selectedFilters.get(h)?.size)selectedFilters.delete(h);render();});
+$('go').addEventListener('click',()=>{renderCompare();if(!$('dlg').open)$('dlg').showModal();});
+$('clr').addEventListener('click',()=>{selectedCompare.clear();render();});
+$('close').addEventListener('click',()=>$('dlg').close());
+$('onlyDiff').addEventListener('change',renderCompare);
+loadAllData();
+if(CFG.REFRESH_INTERVAL>0) refreshTimer=setInterval(loadAllData,CFG.REFRESH_INTERVAL);
+</script>
+</body>
+</html>
